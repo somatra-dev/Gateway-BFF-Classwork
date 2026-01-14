@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: authorization-server
+  main:
+    allow-bean-definition-overriding: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: somatrachey9527@gmail.com
+    password: ${MAIL_PASS}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  datasource:
+    url: jdbc:postgresql://localhost:5555/auth_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      authorizationserver:
+        endpoint:
+          authorization-uri: /oauth2/authorize
+          token-uri: /oauth2/token
+
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.validator: TRACE
+
+app:
+  mail:
+    from: somatrachey9527@gmail.com
+    base-url: http://localhost:9000

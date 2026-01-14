@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent Required</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .consent-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #1a202c;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #718096;
+            font-size: 14px;
+        }
+        .client-info {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .client-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 18px;
+        }
+        .scopes-section {
+            margin-bottom: 24px;
+        }
+        .scopes-section h3 {
+            color: #2d3748;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .scope-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .scope-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            accent-color: #667eea;
+        }
+        .scope-item label {
+            color: #4a5568;
+            font-size: 14px;
+        }
+        .buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-cancel:hover {
+            background: #cbd5e0;
+        }
+        .btn-approve {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-approve:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .user-info {
+            text-align: center;
+            margin-top: 20px;
+            color: #a0aec0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="consent-container">
+        <div class="header">
+            <h1>Authorization Required</h1>
+            <p>An application is requesting access to your account</p>
+        </div>
+
+        <div class="client-info">
+            <span class="client-name" th:text="${clientName}">Application Name</span>
+        </div>
+
+        <form th:action="@{/oauth2/authorize}" method="post">
+            <input type="hidden" name="client_id" th:value="${clientId}">
+            <input type="hidden" name="state" th:value="${state}">
+
+            <div class="scopes-section">
+                <h3>This application would like to:</h3>
+                <div th:each="scope : ${scopes}" class="scope-item">
+                    <input type="checkbox"
+                           th:name="scope"
+                           th:value="${scope}"
+                           th:id="${scope}"
+                           checked>
+                    <label th:for="${scope}" th:text="${scope}">scope</label>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" name="cancel" class="btn btn-cancel">Cancel</button>
+                <button type="submit" class="btn btn-approve">Authorize</button>
+            </div>
+        </form>
+
+        <div class="user-info">
+            Signed in as <span th:text="${principalName}">user</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'auth.res-server'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot with Authorization & Resource Server'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Load .env file
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-authorization-server'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-oauth2-authorization-server-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    runtimeOnly 'org.postgresql:postgresql'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+//     If you need additional Jackson modules
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.1")
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
