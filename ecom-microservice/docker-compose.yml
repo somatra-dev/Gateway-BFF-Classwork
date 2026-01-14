@@ -1,0 +1,30 @@
+services:
+  product-db:
+    image: postgres:16-alpine
+    container_name: product-db
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: product
+      POSTGRES_PASSWORD: product
+    ports:
+      - "5991:5432"
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  order-db:
+    image: postgres:16-alpine
+    container_name: order-db
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+    ports:
+      - "5992:5432"
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  product-db-data:
+  order-db-data:

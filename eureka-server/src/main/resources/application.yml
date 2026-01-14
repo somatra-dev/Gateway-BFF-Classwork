@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: eureka-server
+server:
+  port: 8761
+
+eureka:
+  instance:
+    # Hostname for this Eureka server
+    hostname: localhost
+
+    # Prefer IP address over hostname
+    prefer-ip-address: false
+
+    # Instance ID (must be unique)
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+  server:
+    enable-self-preservation: true
+
+
+  client:
+    # Don't register server with itself (standalone)
+    register-with-eureka: false
+
+    # Don't fetch registry (standalone)
+#    fetch-registry: false
+
+    # Eureka server URL
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

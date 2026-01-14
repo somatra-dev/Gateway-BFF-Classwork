@@ -1,0 +1,3 @@
+rootProject.name = 'ecom-microservice'
+include("product-service")
+include("order-service")
